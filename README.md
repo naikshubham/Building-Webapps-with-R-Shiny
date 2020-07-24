@@ -46,9 +46,65 @@ server <- function(input, output){
 }
 ```
 
+### Build a names explorer Shiny app
+- Every shiny app has two components : a user interface(UI) and a server.
 
-   
+#### Add inputs (UI)
+- First, we will add a `titlePanel` at the top, to display a nicely styled header.Next add a `textInput` to let the user enter their name.
 
+```python
+ui <- fluidPage(titlePanel("Baby Name Explorer"),
+                textInput("name", "Enter Name", "David"),
+                plotOutput('trend')
+                )
+```
+
+#### Add outputs (UI/server)
+- Next step is adding outputs. Our only output will be an empty plot created using ggplot2.
+- Add output using 2 steps : First, render the output in  the server using `renderPlot` and assign it to the output list as an element named trend.
+- The UI needs to known that plot needs to be displayed, so we can use the `plotOutput` and pass it the name of the output.
+
+```python
+server <- function(input, output, session){
+    output$trend <- renderPlot({
+        ggplot()
+       })
+    }
+    
+shinyApp(ui = ui, server = server)
+```
+
+#### Update layout (UI)
+- We can place elements in the UI using layout functions. We will place the **textInput** inside **sidebarPanel** and the **plotOutput** inside **mainPanel**. Additionally, we place both of these panels inside **sidebarLayout**.
+
+```R
+ui <- fluidPage(
+        titlePanel("Baby Name Explorer"),
+        sidebarLayout(
+            sidebarPanel(
+            textInput('name', 'Enter Name', 'David')
+        ),
+        mainPanel(
+            plotOutput('trend')
+        )
+       )
+      )
+```
+
+#### Update output (server)
+- Final step is creating a line plot showing the popularity of a name input by the user using ggplot2. Access the input as `input$name`.
+- Use `geom_line` to generate a line plot of prop, the proportion of births in a given year with the selected name, versus year. To display separate lines based on sex, we will set color to sex.
+
+```R
+server <- function(input, output, session){
+    output$trend <- renderPlot({
+        data_name <- subset(babynames, name == input$name)
+        ggplot(data_name) + 
+            geom_line(aes(x=year, y=prop, color=sex))
+        
+        })
+       }
+```
 
 
 
