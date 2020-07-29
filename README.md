@@ -106,6 +106,57 @@ server <- function(input, output, session){
        }
 ```
 
+### Inputs, Outputs and Layouts
+- We can use other inputs other than textInput. E.g **`sliderInput`** that allows the user to select a year.
+- A **`selectInput`** is a great way to allow for a selection from a list of fixed options, such as a preferences for a list of inputs.
+- The **`numericalInput`** allows us to provide a range of numbers users can choose from, which they can increase or decrease using the little arrows.
+- A **`dateRangeInput`** allows us to provide users with a set of dates, and a calender drop down appears when they click so they can select a specific one.
+
+#### Input functions
+- All input functions have their first argument, an `inputId` in common. The inputId needs to be a character string, and each input should have a unique id so we can refer to it in the server to make updates to the app.
+- Many inputs have a label as their next argument, which is a character string that is often shown to the user to let them know what they should do with the input.
+- From there, each input function has unique arguments that help us successfully build the app. A selectInput requires a list of choices. The user will automatically see the first choice in the list.
+
+```python
+selectInput("inputId", "label", choices = c("A", "B", "C"))
+```
+
+- A sliderInput requires value that the slider will be set at by default, then a min and max of the other values users can choose from.
+- If at any time,we want to see the arguments to a Shiny input function, we can use the built-in R help by putting a question mark in front of a function name or by putting the name inside the help function. `help(checkboxInput)`
+
+```python
+sliderInput("inputId", "label", value=1925, min = 1900, max = 2000)
+```
+
+#### Where to use inputs
+- We always use input functions in the UI of our app. Below app uses textInput and a selectInput.
+- In the server, we can always refer to our input using input$inputId. This is why we need our ids to be unique. Otherwise we can't refer to them down in the server and use them to update the app appropriately.
+
+```python
+ui <- fluidPage(textInput("name", "Enter a name:"),
+                selectInput("animal", "Python or R?", choices = c("dogs", "cats")),
+                textOutput("greeting"),
+                textOutput("answer")
+                )
+                
+server <- function(input, output, session) {
+    output$greeting <- renderText({
+        paste("Do you prefer Python or R", input$name, "?")
+       })
+       
+    output$answer <- renderText([
+        paste("I prefer", input$animal, "!")
+        })
+}
+```
+
+
+
+
+
+
+
+
 
 
 
