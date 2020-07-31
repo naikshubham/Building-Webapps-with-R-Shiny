@@ -152,7 +152,7 @@ server <- function(input, output, session) {
 
 ### Outputs and render functions
 - Render functions are used to build outputs in the server based on inputs and other things like other parts of a character string.
-- The below app outputs two different character strings, one with a question and one with the answer.
+- The below app outputs two different character strings, one with a question and one with the answer. Given they're both character strings, it's appropriate to use the renderText function to create both outputs.
 
 ```python
 ui <- fuildPage(
@@ -172,7 +172,36 @@ server <- function(input, output, session){
 }
 ```
    
-   
+#### Other render functions
+- Like inputs, Shiny provides a number of other render functions we can use to create a number of different kinds of outputs beyond just texts, including **rendertable, renderImage, renderPlot, and more.**
+- Output functions are used back in the UI to display the outputs built in the server with render functions. Earlier we used, two `textOutput` functions to display both the question and the answer outputs.
+
+#### Other output functions
+- Like inputs and render functions, Shiny provides a wide variety of outputs depending on what kind of output we've built, whether that be a table, an image or a plot. **tableOutput(), dataTableOutput, imageOutput(), plotOutput()**
+- htmlwidgets packages such as **DT, leaflet and plotly** allows us to build interactive data tables, maps, and plots as Shiny outputs. E.g, the DT package allows us to build interactive data tables versus static ones.
+- Below code, will build an app creating an interactive data table version of a random 10% of the babynames dataset.
+
+#### Non-shiny output and render functions
+- We use `renderDT` function to build the output in the server, then the `DTOutput` in the ui to display the table called babynames_table.
+- The interactive table is **sortable, searchable, plus users can choose to show 10, 25** or more enteries at a time.
+
+```python
+library(shiny)
+library(babynames)
+
+ui <- fluidPage(DT::DTOutput("babynames_table"))
+
+server <- function(input, output){
+    output$babynames_table <- DT::renderDT({
+        babynames %>%
+            dplyr::sample_frac(.1)
+            })
+         }
+```
+
+
+
+
 
 
 
