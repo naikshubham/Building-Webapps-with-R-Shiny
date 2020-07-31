@@ -150,6 +150,29 @@ server <- function(input, output, session) {
 }
 ```
 
+### Outputs and render functions
+- Render functions are used to build outputs in the server based on inputs and other things like other parts of a character string.
+- The below app outputs two different character strings, one with a question and one with the answer.
+
+```python
+ui <- fuildPage(
+    textInput("name", "Enter a name:"),
+    selectInput("animal", "Dogs or cats?", choices = c("dogs", "cats")),
+    textOutput("question"),
+    textOutput("answer")
+)
+
+server <- function(input, output, session){
+    output$question <- renderText({
+     paste("Do you prefer Python or R,", input$name, "?")
+     })
+     output$answer <- renderText({
+     paste("I prefer", input$animal, "!")
+     })
+}
+```
+   
+   
 
 
 
