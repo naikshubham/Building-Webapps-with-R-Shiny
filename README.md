@@ -199,6 +199,14 @@ server <- function(input, output){
          }
 ```
 
+#### Add a table output
+- In order to add any output to a Shiny app, you need to:
+
+1. Create the output (plot, table, text, etc.).
+2. Render the output object using the appropriate `render___` function.
+3. Assign the rendered object to `output$x`.
+4. Add the output to the UI using the appropriate `___Output` function.
+
 
 
 
