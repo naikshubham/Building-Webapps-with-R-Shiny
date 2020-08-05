@@ -207,6 +207,15 @@ server <- function(input, output){
 3. Assign the rendered object to `output$x`.
 4. Add the output to the UI using the appropriate `___Output` function.
 
+#### Add an interactive table output
+- There are multiple htmlwidgets packages like `DT, leaflet, plotly, etc.` that provide highly interactive outputs and can be easily integrated into Shiny apps using almost the same pattern. For example, we can turn a static table in a Shiny app into an interactive table using the DT package:
+
+1. Create an interactive table using `DT::datatable()`.
+2. Render it using `DT::renderDT()`.
+3. Display it using `DT::DTOutput()`.
+
+#### Add interactive plot output
+- Similar to creating interactive tables, we can easily turn a static plot created using `ggplot2` into an interactive plot using the `plotly` package. To render an interactive plot, use **plotly::renderPlotly()**, and display it using **plotly::plotlyOutput()**.
 
 
 
